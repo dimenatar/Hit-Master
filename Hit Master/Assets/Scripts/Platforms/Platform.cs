@@ -7,6 +7,7 @@ public class Platform : MonoBehaviour
 {
     [SerializeField] private List<Enemy> _enemies;
     [SerializeField] private bool _isFirstPlatform;
+    [SerializeField] private bool _isFinish;
     [SerializeField] private Transform _startPlayerPosition;
 
     private int _enemyCount;
@@ -16,11 +17,6 @@ public class Platform : MonoBehaviour
 
     public event Action OnPlayerEntersPlatform;
     public event Action<Platform> OnPlatformCleared;
-
-    private void Awake()
-    {
-
-    }
 
     private void Start()
     {

@@ -9,6 +9,7 @@ public class KnifeSpawner : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _ignoredLayer;
 
+    [SerializeField] private float _knifeRotationSpeed = 20;
     [SerializeField] private float _speed = 20f;
     [SerializeField] private float _delayToSpawn = 0.5f;
     [SerializeField] private float _delayToThrow = 0.5f;
@@ -36,13 +37,13 @@ public class KnifeSpawner : MonoBehaviour
             {
                 if (hit.collider != null)
                 {
-                    _knife.GetComponent<Knife>().Initialise((hit.point - _knife.transform.position).normalized, _speed);
+                    _knife.GetComponent<Knife>().Initialise((hit.point - _knife.transform.position).normalized, _speed, _knifeRotationSpeed);
                     _knife.transform.LookAt(hit.point);
                 }
             }
             else
             {
-                _knife.GetComponent<Knife>().Initialise(ray.direction, _speed);
+                _knife.GetComponent<Knife>().Initialise(ray.direction, _speed, _knifeRotationSpeed);
                 _knife.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(_knife.transform.forward, ray.direction, 1, 0));
                 print("else");
                 Destroy(_knife, 10);

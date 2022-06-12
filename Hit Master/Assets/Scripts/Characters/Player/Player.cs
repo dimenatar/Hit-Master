@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     public void GetHit()
     {
+        print("PLAYER DEATH");
         OnDied?.Invoke();
     }
 }

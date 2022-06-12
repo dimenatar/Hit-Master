@@ -6,6 +6,7 @@ using UnityEngine;
 public class Platforms : MonoBehaviour
 {
     [SerializeField] private List<Platform> _platforms;
+    [SerializeField] private Platform _finishPlatform;
     [SerializeField] private Transform _player;
 
     private Platform _currentPlatform;
@@ -31,7 +32,7 @@ public class Platforms : MonoBehaviour
     {
         if (IsLastPlatform(_currentPlatform))
         {
-            throw new System.Exception("There is no next platform!");
+            return _finishPlatform;
         }
         else
         {
@@ -41,11 +42,8 @@ public class Platforms : MonoBehaviour
 
     public void PlatformCleared(Platform platform)
     {
-        if (!IsLastPlatform(platform))
-        {
-            _currentPlatform = GetNextPlatform();
-            print(_currentPlatform);
-            OnCurrentPlatformChanged?.Invoke(_currentPlatform);
-        }
+        _currentPlatform = GetNextPlatform();
+        print(_currentPlatform);
+        OnCurrentPlatformChanged?.Invoke(_currentPlatform);
     }
 }

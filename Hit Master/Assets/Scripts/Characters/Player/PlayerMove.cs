@@ -30,6 +30,7 @@ public class PlayerMove : MonoBehaviour
         {
             var lookRotation = Quaternion.LookRotation(point);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, timer / _rotationDuration);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             timer += Time.deltaTime;
             yield return null;
         }
