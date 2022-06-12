@@ -12,6 +12,7 @@ public class Platforms : MonoBehaviour
     private Platform _currentPlatform;
 
     public Platform CurrentPlatform => _currentPlatform;
+    public List<Platform> PlatformList => _platforms;
 
     public event Action<Platform> OnCurrentPlatformChanged;
 

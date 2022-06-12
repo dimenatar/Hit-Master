@@ -141,7 +141,7 @@ public class Ragdoll : MonoBehaviour
     public void FullyFall()
     {
         _isStangingAfterFalling = false;
-        PunchRigidbody();
+        //PunchRigidbody();
         //Fall();
     }
 

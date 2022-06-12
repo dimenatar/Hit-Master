@@ -13,15 +13,20 @@ public class Platform : MonoBehaviour
     private int _enemyCount;
     private Transform _player;
 
+    public int EnemyCount => _enemyCount;
     public Vector3 StartPlayerPosition => _startPlayerPosition.position;
 
     public event Action OnPlayerEntersPlatform;
     public event Action<Platform> OnPlatformCleared;
 
+    private void Awake()
+    {
+        _enemyCount = _enemies.Count;
+    }
+
     private void Start()
     {
         _enemies.ForEach(enemy => OnPlayerEntersPlatform += enemy.Enable);
-        _enemyCount = _enemies.Count;
         _enemies.ForEach(enemy => enemy.OnDied += () => _enemies.Remove(enemy));
         _enemies.ForEach(enemy => enemy.OnDied += ReduceEnemy);
        // _enemies.ForEach(enemy => enemy.OnDied += () => _player.GetComponent<PlayerMove>().RotateTowards(GetClosestEnemy(_player.position), false));
@@ -54,7 +59,6 @@ public class Platform : MonoBehaviour
                 min = distance;
             }
         }
-        print(point);
         return point;
     }
 
@@ -70,6 +74,11 @@ public class Platform : MonoBehaviour
     {
         _enemies.ForEach(enemy => enemy.Initialise(player));
         _player = player;
+    }
+
+    public void SubscribeEnemiesOnDied(Action action)
+    {
+        _enemies.ForEach(enemy => enemy.OnDied += action);
     }
 
     private void ReduceEnemy()

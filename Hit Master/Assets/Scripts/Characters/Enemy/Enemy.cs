@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyMove))]
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private Transform _parentToKnifes;
     [SerializeField] private PunchPart _body;
     [SerializeField] private PunchPart _head;
     [SerializeField] private PunchPart _head2;
@@ -37,6 +38,9 @@ public class Enemy : MonoBehaviour
 
         OnDied += _ragdoll.FullyFall;
         OnDied += Destroy;
+
+        _ragdoll.OnStandedUp += _enemyMove.StartMove;
+        _ragdoll.OnFall += _enemyMove.StopMove;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,16 +63,21 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void GetHit(Vector3 position)
+    public void GetHit(Vector3 position, GameObject knife)
     {
-        _ragdoll.PunchRigidbody(position);
+        print("GET HIT");
+        //_ragdoll.PunchRigidbody(position);
         TakeDamage();
+        //knife.transform.SetParent(_parentToKnifes);
+        ApplyHit(position, knife);
     }
 
-    public void GetSpecialHit(Vector3 position)
+    public void GetSpecialHit(Vector3 position, GameObject knife)
     {
-        _ragdoll.PunchRigidbody(position);
+        //_ragdoll.PunchRigidbody(position);
         TakeDamage(_startHealth);
+        //knife.transform.SetParent(_parentToKnifes);
+        ApplyHit(position, knife);
     }
 
     private void TakeDamage(int damage = 1)
@@ -85,5 +94,11 @@ public class Enemy : MonoBehaviour
         Destroy(this);
         Destroy(_enemyMove);
         Destroy(_enemyAnimations);
+    }
+
+    private void ApplyHit(Vector3 position, GameObject knife)
+    {
+        _ragdoll.PunchRigidbody(position);
+        knife.transform.SetParent(_parentToKnifes);
     }
 }

@@ -21,6 +21,11 @@ public class EnemyMove : MonoBehaviour
         _agent.SetDestination(_player.position);
     }
 
+    public void StopMove()
+    {
+        _agent.enabled = false;
+    }
+
     private void OnDestroy()
     {
         _agent.enabled = false;

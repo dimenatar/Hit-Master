@@ -46,7 +46,8 @@ public class KnifeSpawner : MonoBehaviour
                 _knife.GetComponent<Knife>().Initialise(ray.direction, _speed, _knifeRotationSpeed);
                 _knife.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(_knife.transform.forward, ray.direction, 1, 0));
                 print("else");
-                Destroy(_knife, 10);
+                //Destroy(_knife, 10);
+                StartCoroutine(CheckDestroy(_knife, 6));
             }
             _knife.transform.parent = null;
             _knife = null;

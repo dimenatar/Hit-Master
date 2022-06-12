@@ -32,11 +32,16 @@ public class Knife : MonoBehaviour
         {
             if (other.GetComponent<PunchPart>() && !other.isTrigger)
             {
-                other.GetComponent<PunchPart>().GetHit(transform.position);
                 Punch(other);
+                other.GetComponent<PunchPart>().GetHit(transform.position, gameObject);
             }
             else if (!other.isTrigger)
             {
+                var root = IsParentImplementPunchPart(other.transform);
+                if (root)
+                {
+                    root.GetComponent<PunchPart>().GetHit(transform.position, gameObject);
+                }
                 Punch(other);
             }
         }
@@ -54,39 +59,34 @@ public class Knife : MonoBehaviour
 
     private void Punch(Collider other)
     {
-            _isInitialised = false;
-             transform.rotation.SetLookRotation(_rigidbody.velocity);
-             print(other.name);
-            _rigidbody.isKinematic = true;
-            //transform.rotation = Quaternion.Euler(_direction);
-            transform.SetParent(other.transform);
-            Destroy(this);
+        _isInitialised = false;
+        transform.rotation.SetLookRotation(_rigidbody.velocity);
+        print(other.name);
+        _rigidbody.isKinematic = true;
+        //transform.rotation = Quaternion.Euler(_direction);
+        transform.SetParent(other.transform);
+        Destroy(this);
     }
 
     private void RotateAlongX()
     {
-        //
         transform.Rotate(new Vector3(_rotationSpeed * Time.deltaTime, 0, 0));
-
-       // transform.rotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x + _rotationSpeed, 0, 0));
-
-        //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _rotationSpeed / Time.deltaTime);
-        print(transform.rotation.eulerAngles);
     }
 
-    //private IEnumerator Rotate()
-    //{
-    //    while (true)
-    //    {
-    //        var rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x + 180, 0, 0));
-    //        Debug.LogWarning(rotation.eulerAngles);
-    //        float timer = 0;
-    //        while (timer < _rotationSpeed)
-    //        {
-    //            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, timer / _rotationSpeed);
-    //            timer += Time.deltaTime;
-    //            yield return null;
-    //        }
-    //    }
-    //}
+    private Transform IsParentImplementPunchPart(Transform node)
+    {
+        if (node != null)
+        {
+            if (node.GetComponent<PunchPart>())
+            {
+                return node;
+            }
+            else
+            {
+                return IsParentImplementPunchPart(node.parent);
+            }
+        }
+        else return null;
+    }
+
 }
