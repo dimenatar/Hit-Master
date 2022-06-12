@@ -189,6 +189,7 @@ public class Ragdoll : MonoBehaviour
     {
        // Vector3 headPos = _ragdollSaver.Bones.Where(b => b.Name == _head.name).FirstOrDefault().Position;
      
+        if (_isStangingAfterFalling)
         StartCoroutine(nameof(LerpHead));
        
     }
@@ -204,7 +205,8 @@ public class Ragdoll : MonoBehaviour
         {
             rigidbody.isKinematic = true;
         }
-        StartCoroutine(nameof(Lerp));
+        if (_isStangingAfterFalling)
+            StartCoroutine(nameof(Lerp));
     }
 
     private IEnumerator LerpHead()

@@ -36,8 +36,8 @@ public class Enemy : MonoBehaviour
 
         OnEnable += _enemyMove.StartMove;
 
-        OnDied += _ragdoll.FullyFall;
         OnDied += Destroy;
+        OnDied += _ragdoll.FullyFall;
 
         _ragdoll.OnStandedUp += _enemyMove.StartMove;
         _ragdoll.OnFall += _enemyMove.StopMove;

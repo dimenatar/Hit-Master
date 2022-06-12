@@ -13,7 +13,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
-        _platforms.OnCurrentPlatformChanged += (platform) => _agent.SetDestination(platform.StartPlayerPosition);
+        _platforms.OnCurrentPlatformChanged += StartMove;
+        _platforms.OnCurrentPlatformChanged += (platform) => print(platform.name);
     }
 
     public void RotateTowards(Vector3 point, bool disableAgent = true)
@@ -34,5 +35,15 @@ public class PlayerMove : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+    }
+
+    private void StartMove(Platform platform)
+    {
+        _agent.SetDestination(platform.StartPlayerPosition);
+        _agent.isStopped = false;
+        print(_agent.isActiveAndEnabled);
+        print(_agent.isOnNavMesh);
+        print(_agent.isPathStale);
+        print(_agent.isStopped);
     }
 }
