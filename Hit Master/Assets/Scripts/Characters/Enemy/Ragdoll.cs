@@ -211,8 +211,6 @@ public class Ragdoll : MonoBehaviour
     {
         _timer = 0;
         Bone head = _savedBones.Where(b => b.Name == _head.name).FirstOrDefault();
-        print(head.Name);
-        print(_head.name);
         Vector3 startPoint = _head.transform.localPosition;
         while (_timer < _standUpDuration/2)
         {
@@ -232,7 +230,7 @@ public class Ragdoll : MonoBehaviour
         for (int i = 0; i < _rigidbodies.Length; i++)
         {
             _temp.Add(_rigidbodies[i].transform.localPosition);
-            print($"{_rigidbodies[i].name} ------ {_savedBones[i].Name}");
+            //print($"{_rigidbodies[i].name} ------ {_savedBones[i].Name}");
             _temp2.Add(_rigidbodies[i].transform.localRotation);
         }
 

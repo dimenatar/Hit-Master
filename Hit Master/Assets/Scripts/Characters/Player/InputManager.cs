@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public event Action<Vector3> OnTouch;
+    public event Action OnTouch;
+
+    private bool _isFirstTouch;
 
     void Update()
     {
+        if (!_isFirstTouch)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _isFirstTouch = true;
+                OnTouch?.Invoke();
+            }
+        }
         //if (Input.touchCount > 0)
         //{
         //    OnTouch?.Invoke(Input.GetTouch(0).position);

@@ -51,10 +51,10 @@ public class Knife : MonoBehaviour
     private void Punch(Collider other)
     {
             _isInitialised = false;
-            
-            print(other.name);
+             transform.rotation.SetLookRotation(_rigidbody.velocity);
+             print(other.name);
             _rigidbody.isKinematic = true;
-            transform.rotation = Quaternion.Euler(_direction);
+            //transform.rotation = Quaternion.Euler(_direction);
             transform.SetParent(other.transform);
             Destroy(this);
     }

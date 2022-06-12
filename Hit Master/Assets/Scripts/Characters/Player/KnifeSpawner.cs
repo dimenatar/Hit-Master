@@ -14,19 +14,21 @@ public class KnifeSpawner : MonoBehaviour
     [SerializeField] private float _delayToThrow = 0.5f;
     [SerializeField] private float _delayToBecomeReadyToHit = 0.2f;
 
-    private GameObject _knife;
+    [SerializeField] private GameObject _knife;
+
+    private bool _isFirstKnife = true;
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            SpawnKnife();
-            ThrowKnife(Input.mousePosition);
+            StartCoroutine(ThrowKnife(Input.mousePosition));
         }
     }
 
-    public void ThrowKnife(Vector3 screenSpace)
+    public IEnumerator ThrowKnife(Vector3 screenSpace)
     {
+        yield return new WaitForSeconds(_delayToThrow);
         if (_knife)
         {
             var ray = _camera.ScreenPointToRay(screenSpace);
@@ -35,18 +37,35 @@ public class KnifeSpawner : MonoBehaviour
                 if (hit.collider != null)
                 {
                     _knife.GetComponent<Knife>().Initialise((hit.point - _knife.transform.position).normalized, _speed);
+                    _knife.transform.LookAt(hit.point);
                 }
             }
             else
             {
                 _knife.GetComponent<Knife>().Initialise(ray.direction, _speed);
+                _knife.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(_knife.transform.forward, ray.direction, 1, 0));
+                print("else");
                 Destroy(_knife, 10);
             }
+            _knife.transform.parent = null;
+            _knife = null;
         }
+        yield return new WaitForSeconds(_delayToSpawn);
+        SpawnKnife();
     }
 
     public void SpawnKnife()
     {
         _knife = Instantiate(_prefab, _spawnPoint);
+        _knife.transform.localRotation = Quaternion.identity;
+    }
+
+    private IEnumerator CheckDestroy(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (obj.transform.parent == null)
+        {
+            Destroy(obj);
+        }
     }
 }
