@@ -8401,8 +8401,9 @@ GameObject:
   - component: {fileID: 1686169016}
   - component: {fileID: 1686169018}
   - component: {fileID: 1686169017}
+  - component: {fileID: 1686169019}
   m_Layer: 0
-  m_Name: Enemy (1)
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8591,6 +8592,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 1686169017}
+--- !u!114 &1686169019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686169007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85eabce6b0d8c9647aa7665ebb3609c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 1686169009}
+  _parts:
+  - {fileID: 715566606}
+  - {fileID: 1261725885}
+  - {fileID: 1521099695}
+  - {fileID: 1776242977}
+  - {fileID: 1223968254}
+  - {fileID: 911163365}
+  - {fileID: 2041746947}
+  - {fileID: 1846022896}
+  - {fileID: 39444316}
+  - {fileID: 1839530255}
+  - {fileID: 1606345561}
+  _deadMaterial: {fileID: 2100000, guid: 0844a441f1199214db19b5d78db6d70f, type: 2}
 --- !u!1 &1688369123
 GameObject:
   m_ObjectHideFlags: 0
