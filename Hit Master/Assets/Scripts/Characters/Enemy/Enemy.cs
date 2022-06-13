@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     public event Action OnPlayerEntersTrigger;
     public event Action OnDied;
     public event Action OnEnable;
+    public event Action<Vector3> OnHit;
 
     private void Awake()
     {
@@ -98,6 +99,7 @@ public class Enemy : MonoBehaviour
 
     private void ApplyHit(Vector3 position, GameObject knife)
     {
+        OnHit?.Invoke(position);
         _ragdoll.PunchRigidbody(position);
         knife.transform.SetParent(_parentToKnifes);
     }

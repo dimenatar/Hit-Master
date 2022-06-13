@@ -190,8 +190,10 @@ public class Ragdoll : MonoBehaviour
        // Vector3 headPos = _ragdollSaver.Bones.Where(b => b.Name == _head.name).FirstOrDefault().Position;
      
         if (_isStangingAfterFalling)
-        StartCoroutine(nameof(LerpHead));
-       
+            StartCoroutine(nameof(Lerp));
+        //StartCoroutine(nameof(LerpHead));
+
+
     }
 
     private void RestoreBones()
@@ -220,7 +222,9 @@ public class Ragdoll : MonoBehaviour
             _timer += Time.deltaTime;
             yield return null;
         }
-        RestoreBones();
+        //RestoreBones();
+        if (_isStangingAfterFalling)
+            StartCoroutine(nameof(Lerp));
     }
 
     private IEnumerator Lerp()
