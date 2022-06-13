@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KnifeSpawner : MonoBehaviour
 {
+    [SerializeField] private InputManager _input;
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Camera _camera;
@@ -18,21 +19,26 @@ public class KnifeSpawner : MonoBehaviour
     [SerializeField] private GameObject _knife;
 
     private bool _isFirstKnife = true;
+    private Vector3 _worldPosition;
+
+    private void Awake()
+    {
+        _input.OnTouch += (position) => _worldPosition = position;
+    }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(ThrowKnife(Input.mousePosition));
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    StartCoroutine(ThrowKnife(Input.mousePosition));
+        //}
     }
 
-    public IEnumerator ThrowKnife(Vector3 screenSpace)
+    public void ThrowKnife()
     {
-        yield return new WaitForSeconds(_delayToThrow);
         if (_knife)
         {
-            var ray = _camera.ScreenPointToRay(screenSpace);
+            var ray = _camera.ScreenPointToRay(_worldPosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 1000f, _ignoredLayer))
             {
                 if (hit.collider != null)
@@ -52,8 +58,8 @@ public class KnifeSpawner : MonoBehaviour
             _knife.transform.parent = null;
             _knife = null;
         }
-        yield return new WaitForSeconds(_delayToSpawn);
-        SpawnKnife();
+       // yield return new WaitForSeconds(_delayToSpawn);
+       // SpawnKnife();
     }
 
     public void SpawnKnife()

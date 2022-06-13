@@ -11,6 +11,7 @@ public class ZeroSceneLoader : MonoBehaviour
 
     public void Play()
     {
+        print("1");
         int level = _dataManager.UserData.CurrentLevel;
         _levelLoader.LoadLevel(_scenes[level]);
     }

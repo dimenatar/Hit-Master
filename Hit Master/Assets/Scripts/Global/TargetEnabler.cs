@@ -17,7 +17,7 @@ public class TargetEnabler : MonoBehaviour
     private void Awake()
     {
         _currentEnabledTarget = _firstEnemy;
-        _inputManager.OnTouch += Touch;
+        _inputManager.OnTouch += (position) => Touch();
     }
 
     private IEnumerator CheckTarget()

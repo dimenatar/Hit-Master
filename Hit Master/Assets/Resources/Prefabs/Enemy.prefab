@@ -4553,6 +4553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 6657812988382318258}
+  _delayToStartMove: 0.5
 --- !u!195 &6657812988382318258
 NavMeshAgent:
   m_ObjectHideFlags: 0

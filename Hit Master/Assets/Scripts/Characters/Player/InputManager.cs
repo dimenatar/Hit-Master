@@ -6,7 +6,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public event Action OnFirstTouch;
-    public event Action OnTouch;
+    public event Action<Vector3> OnTouch;
 
     private bool _isFirstTouch;
 
@@ -19,7 +19,7 @@ public class InputManager : MonoBehaviour
                 _isFirstTouch = true;
                 OnFirstTouch?.Invoke();
             }
-            OnTouch?.Invoke();
+            OnTouch?.Invoke(Input.mousePosition);
         }
         //if (Input.touchCount > 0)
         //{

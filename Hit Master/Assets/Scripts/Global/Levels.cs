@@ -27,7 +27,7 @@ public class Levels : MonoBehaviour
         }
         else
         {
-            _currentLevel = 0;
+            _currentLevel = 1;
         }
         _dataManager.SaveData(_currentLevel);
     }

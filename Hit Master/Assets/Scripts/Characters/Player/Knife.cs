@@ -30,7 +30,11 @@ public class Knife : MonoBehaviour
     {
         if (_isInitialised)
         {
-            if (other.GetComponent<PunchPart>() && !other.isTrigger)
+            if (other.GetComponent<IDestroyable>() != null)
+            {
+                other.GetComponent<IDestroyable>().Destroy();
+            }
+            else if (other.GetComponent<PunchPart>() && !other.isTrigger)
             {
                 Punch(other);
                 other.GetComponent<PunchPart>().GetHit(transform.position, gameObject);

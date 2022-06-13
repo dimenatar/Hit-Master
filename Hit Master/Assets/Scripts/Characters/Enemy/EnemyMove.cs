@@ -6,8 +6,10 @@ using UnityEngine.AI;
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private float _delayToStartMove = 1;
 
     private Transform _player;
+    private bool _isInitialised;
 
     public void Initialise(Transform player)
     {
@@ -16,9 +18,7 @@ public class EnemyMove : MonoBehaviour
 
     public void StartMove()
     {
-        print("START MOVE");
-        _agent.enabled = true;
-        _agent.SetDestination(_player.position);
+        StartCoroutine(Move());
     }
 
     public void StopMove()
@@ -29,5 +29,14 @@ public class EnemyMove : MonoBehaviour
     private void OnDestroy()
     {
         _agent.enabled = false;
+        StopAllCoroutines();
+    }
+
+    private IEnumerator Move()
+    {
+        yield return new WaitForSeconds(_delayToStartMove);
+        _isInitialised = true;
+        _agent.enabled = true;
+        _agent.SetDestination(_player.position);
     }
 }
