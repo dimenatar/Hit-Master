@@ -71,13 +71,13 @@ public class EndPanel : MonoBehaviour
         _result.DOColor(ChangeAlpha(_result.color, 1), _panelFillDuration).SetUpdate(true);
 
         // wait for scaling kills
-        yield return new WaitForSeconds(_delayToShowKills);
+        yield return WaitForUnscaledSecond(_delayToShowKills);
 
         // animate scaling kills
         _kills.transform.DOScale(1, _killsAnimationDuration).SetUpdate(true);
 
         //wait for scaling result button
-        yield return new WaitForSeconds(_delayToShowButton);
+        yield return WaitForUnscaledSecond(_delayToShowButton);
 
         //animate button
         _button.transform.DOScale(1, _buttonAnimationDuration).SetUpdate(true);
@@ -87,5 +87,15 @@ public class EndPanel : MonoBehaviour
     {
         color.a = alpha;
         return color;
+    }
+
+    private IEnumerator WaitForUnscaledSecond(float duration)
+    {
+        float timer = 0;
+        while (timer < duration)
+        {
+            yield return null;
+            timer += Time.unscaledDeltaTime;
+        }
     }
 }

@@ -9,6 +9,6 @@ public class FirstPlatformTouchConnector : MonoBehaviour
 
     private void Awake()
     {
-        _input.OnTouch += _firstPlatform.Initialise;
+        _input.OnFirstTouch += _firstPlatform.Initialise;
     }
 }

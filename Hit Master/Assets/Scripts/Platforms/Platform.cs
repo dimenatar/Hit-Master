@@ -62,6 +62,24 @@ public class Platform : MonoBehaviour
         return point;
     }
 
+    public Transform GetClosestEnemy(Transform relative)
+    {
+        if (_enemies.Count == 0) return null;
+        Transform point;
+        point = _enemies[0].transform;
+        float min = Vector3.Distance(point.position, relative.position);
+        for (int i = 1; i < _enemies.Count; i++)
+        {
+            float distance = Vector3.Distance(_enemies[i].transform.position, relative.position);
+            if (min > distance)
+            {
+                point = _enemies[i].transform;
+                min = distance;
+            }
+        }
+        return point;
+    }
+
     public void Initialise()
     {
         if (_isFirstPlatform)
