@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoundEnder : MonoBehaviour
 {
+    [SerializeField] private float _delayToDisplayLose = 1f;
     [SerializeField] private Finish _finish;
     [SerializeField] private EndPanel _panel;
     [SerializeField] private Player _player;
@@ -11,14 +12,18 @@ public class RoundEnder : MonoBehaviour
 
     private void Awake()
     {
-        _finish.OnFinish += () => EndRound(true);
-        _player.OnDied += () => EndRound(false);
+        _finish.OnFinish += () => StartCoroutine(EndRound(true));
+        _player.OnDied += () => StartCoroutine(EndRound(false));
     }
 
-    private void EndRound(bool win)
+    private IEnumerator EndRound(bool win)
     {
         _disabler.Disable();
         _panel.Show(win);
+        if (!win)
+        {
+            yield return new WaitForSeconds(_delayToDisplayLose);
+        }
         Time.timeScale = 0;
     }
 }

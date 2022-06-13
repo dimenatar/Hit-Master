@@ -25,6 +25,8 @@ public class Ragdoll : MonoBehaviour
     private List<Bone> _savedBones;
 
     private bool _isFallen;
+    private bool _isStanding;
+
     private bool _isInitialised;
     private Rigidbody[] _rigidbodies;
     private bool _isFoundRigids;
@@ -52,49 +54,27 @@ public class Ragdoll : MonoBehaviour
     {
         SetRigidbodyState(true);
         SetColliderState(false);
-       //Invoke(nameof(Fall), 2f);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PunchRigidbody();
-            //Fall();
-        }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            WriteBones();
-        }
-    }
-
-    public void Initialise()
-    {
-        if (_isInitialised)
-        {
-            _isStangingAfterFalling = _isStandingSave;
-        }
-        else
-        {
-            _isStandingSave = _isStangingAfterFalling;
-            _isInitialised = true;
-        }
     }
 
     public void Fall()
     {
-        WriteBones();
-        if (!_isFallen)
+        if (_isStanding)
         {
-            OnFall?.Invoke();
-
-            _isFallen = true;
-            SetRigidbodyState(false);
-            SetColliderState(true);
-
-            if (_isStangingAfterFalling)
-                Invoke(nameof(Stand), _delayToStand);
+            StopAllCoroutines();
         }
+        else if (!_isFallen)
+        {
+            WriteBones();
+        }
+        OnFall?.Invoke();
+
+        _isFallen = true;
+        SetRigidbodyState(false);
+        SetColliderState(true);
+
+        if (_isStangingAfterFalling)
+            Invoke(nameof(Stand), _delayToStand);
+
     }
 
     public void WriteBones()
@@ -102,21 +82,19 @@ public class Ragdoll : MonoBehaviour
         _savedBones = new List<Bone>();
         foreach (var item in _rigidbodies)
         {
-            //if (!item.name.Equals(gameObject.name))
-                //_ragdollSaver.WriteValue(new Bone(item.name, item.transform.localPosition, item.transform.localRotation));
-                _savedBones.Add(new Bone(item.name, item.transform.localPosition, item.transform.localRotation));
+            _savedBones.Add(new Bone(item.name, item.transform.localPosition, item.transform.localRotation));
         }
     }
 
     private void Stand()
     {
+        _isStanding = true;
         if (_isStangingAfterFalling)
         OnBeginStanding?.Invoke();
     }
 
     public void PunchRigidbody()
     {
-        print("PUNCH");
         Fall();
          _rigidbodyToPunch.AddForce(-transform.forward * _forceToPunch, ForceMode.Impulse);
     }
@@ -124,9 +102,7 @@ public class Ragdoll : MonoBehaviour
 
     public void PunchRigidbody(Vector3 position)
     {
-        print("PUNCH");
         Fall();
-        //_rigidbodyToPunch.AddForce(-transform.forward * _forceToPunch, ForceMode.Impulse);
         _rigidbodyToPunch.AddExplosionForce(_forceToPunch, position, 50);
     }
 
@@ -141,15 +117,13 @@ public class Ragdoll : MonoBehaviour
     public void FullyFall()
     {
         _isStangingAfterFalling = false;
-        //PunchRigidbody();
-        //Fall();
     }
 
     private void SetRigidbodyState(bool state)
     {
         if (!_isFoundRigids)
         {
-            _rigidbodies = GetComponentsInChildren<Rigidbody>();//.ToList().Where(r => r.name != gameObject.name).ToArray();
+            _rigidbodies = GetComponentsInChildren<Rigidbody>();
             _isFoundRigids = true;
         }
         foreach (Rigidbody rigidbody in _rigidbodies)
@@ -181,19 +155,13 @@ public class Ragdoll : MonoBehaviour
     {
         SetRigidbodyState(true);
         SetColliderState(false);
-       // _playerAnimator.enabled = true;
         _isFallen = false;
     }
 
     private void BeginStanding()
     {
-       // Vector3 headPos = _ragdollSaver.Bones.Where(b => b.Name == _head.name).FirstOrDefault().Position;
-     
         if (_isStangingAfterFalling)
             StartCoroutine(nameof(Lerp));
-        //StartCoroutine(nameof(LerpHead));
-
-
     }
 
     private void RestoreBones()
@@ -236,7 +204,6 @@ public class Ragdoll : MonoBehaviour
         for (int i = 0; i < _rigidbodies.Length; i++)
         {
             _temp.Add(_rigidbodies[i].transform.localPosition);
-            //print($"{_rigidbodies[i].name} ------ {_savedBones[i].Name}");
             _temp2.Add(_rigidbodies[i].transform.localRotation);
         }
 
@@ -251,6 +218,7 @@ public class Ragdoll : MonoBehaviour
             _timer += Time.deltaTime;
             yield return null;
         }
+        _isStanding = false;
         OnStandedUp?.Invoke();
     }
 

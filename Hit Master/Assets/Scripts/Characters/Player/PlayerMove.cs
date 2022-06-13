@@ -41,9 +41,5 @@ public class PlayerMove : MonoBehaviour
     {
         _agent.SetDestination(platform.StartPlayerPosition);
         _agent.isStopped = false;
-        print(_agent.isActiveAndEnabled);
-        print(_agent.isOnNavMesh);
-        print(_agent.isPathStale);
-        print(_agent.isStopped);
     }
 }

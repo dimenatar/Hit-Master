@@ -55,6 +55,7 @@ public class KnifeSpawner : MonoBehaviour
                 //Destroy(_knife, 10);
                 StartCoroutine(CheckDestroy(_knife, 6));
             }
+            Physics.IgnoreCollision(_knife.GetComponent<Collider>(), GetComponent<Collider>());
             _knife.transform.parent = null;
             _knife = null;
         }

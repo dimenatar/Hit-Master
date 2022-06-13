@@ -66,20 +66,17 @@ public class Enemy : MonoBehaviour
 
     public void GetHit(Vector3 position, GameObject knife)
     {
-        print("GET HIT");
-        //_ragdoll.PunchRigidbody(position);
         TakeDamage();
-        //knife.transform.SetParent(_parentToKnifes);
         ApplyHit(position, knife);
     }
 
     public void GetSpecialHit(Vector3 position, GameObject knife)
     {
-        //_ragdoll.PunchRigidbody(position);
         TakeDamage(_startHealth);
-        //knife.transform.SetParent(_parentToKnifes);
         ApplyHit(position, knife);
     }
+
+    public void Die() => OnDied?.Invoke();
 
     private void TakeDamage(int damage = 1)
     {

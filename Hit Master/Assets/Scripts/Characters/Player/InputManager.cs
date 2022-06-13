@@ -5,22 +5,30 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private float _delayToRecieveTouch = 0.5f;
+
     public event Action OnFirstTouch;
     public event Action<Vector3> OnTouch;
 
     private bool _isFirstTouch;
+    private float _timer;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_timer >= _delayToRecieveTouch)
         {
-            if (!_isFirstTouch)
+            if (Input.GetMouseButtonDown(0))
             {
-                _isFirstTouch = true;
-                OnFirstTouch?.Invoke();
+                if (!_isFirstTouch)
+                {
+                    _isFirstTouch = true;
+                    OnFirstTouch?.Invoke();
+                }
+                OnTouch?.Invoke(Input.mousePosition);
+                _timer = 0;
             }
-            OnTouch?.Invoke(Input.mousePosition);
         }
+        _timer += Time.deltaTime;
         //if (Input.touchCount > 0)
         //{
         //    OnTouch?.Invoke(Input.GetTouch(0).position);
