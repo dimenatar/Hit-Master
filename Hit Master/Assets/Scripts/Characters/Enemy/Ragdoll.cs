@@ -37,6 +37,8 @@ public class Ragdoll : MonoBehaviour
     private List<Vector3> _temp;
     private List<Quaternion> _temp2;
 
+    private Vector3 pos = Vector3.zero;
+
     public bool IsFallen => _isFallen;
     public float StandUpDuration => _standUpDuration;
 
@@ -103,7 +105,12 @@ public class Ragdoll : MonoBehaviour
     public void PunchRigidbody(Vector3 position)
     {
         Fall();
-        _rigidbodyToPunch.AddExplosionForce(_forceToPunch, position, 50);
+        //_rigidbodyToPunch.AddExplosionForce(_forceToPunch, position, 50);
+        pos = position;
+        foreach (var rb in _rigidbodies)
+        {
+            rb.AddExplosionForce(_forceToPunch, position, 2);
+        }
     }
 
     public void Restore()
