@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +10,6 @@ public class Platform : MonoBehaviour
     [SerializeField] private Transform _startPlayerPosition;
 
     private int _enemyCount;
-    private Transform _player;
 
     public int EnemyCount => _enemyCount;
     public Vector3 StartPlayerPosition => _startPlayerPosition.position;
@@ -29,7 +27,6 @@ public class Platform : MonoBehaviour
         _enemies.ForEach(enemy => OnPlayerEntersPlatform += enemy.Enable);
         _enemies.ForEach(enemy => enemy.OnDied += () => _enemies.Remove(enemy));
         _enemies.ForEach(enemy => enemy.OnDied += ReduceEnemy);
-       // _enemies.ForEach(enemy => enemy.OnDied += () => _player.GetComponent<PlayerMove>().RotateTowards(GetClosestEnemy(_player.position), false));
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,7 +88,6 @@ public class Platform : MonoBehaviour
     public void InitialiseEnemies(Transform player)
     {
         _enemies.ForEach(enemy => enemy.Initialise(player));
-        _player = player;
     }
 
     public void SubscribeEnemiesOnDied(Action action)

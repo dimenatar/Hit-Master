@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -58,7 +56,6 @@ public class Knife : MonoBehaviour
         _rigidbody.isKinematic = false;
         _speed = speed;
         _rotationSpeed = rotationSpeed;
-        //StartCoroutine(Rotate());
     }
 
     private void Punch(Collider other)
@@ -67,7 +64,6 @@ public class Knife : MonoBehaviour
         transform.rotation.SetLookRotation(_rigidbody.velocity);
         print(other.name);
         _rigidbody.isKinematic = true;
-        //transform.rotation = Quaternion.Euler(_direction);
         transform.SetParent(other.transform);
         Destroy(this);
     }

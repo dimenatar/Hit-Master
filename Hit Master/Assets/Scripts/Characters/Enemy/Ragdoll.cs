@@ -1,9 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using DG.Tweening;
-using System;
 
 public class Ragdoll : MonoBehaviour
 {
@@ -27,17 +26,13 @@ public class Ragdoll : MonoBehaviour
     private bool _isFallen;
     private bool _isStanding;
 
-    private bool _isInitialised;
     private Rigidbody[] _rigidbodies;
     private bool _isFoundRigids;
     private Vector3 _saveHipPos;
 
-    private bool _isStandingSave;
     private float _timer;
     private List<Vector3> _temp;
     private List<Quaternion> _temp2;
-
-    private Vector3 pos = Vector3.zero;
 
     public bool IsFallen => _isFallen;
     public float StandUpDuration => _standUpDuration;
@@ -105,8 +100,6 @@ public class Ragdoll : MonoBehaviour
     public void PunchRigidbody(Vector3 position)
     {
         Fall();
-        //_rigidbodyToPunch.AddExplosionForce(_forceToPunch, position, 50);
-        pos = position;
         foreach (var rb in _rigidbodies)
         {
             rb.AddExplosionForce(_forceToPunch, position, 2);

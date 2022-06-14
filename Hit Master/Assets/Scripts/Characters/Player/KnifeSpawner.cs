@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KnifeSpawner : MonoBehaviour
@@ -12,9 +11,6 @@ public class KnifeSpawner : MonoBehaviour
 
     [SerializeField] private float _knifeRotationSpeed = 20;
     [SerializeField] private float _speed = 20f;
-    [SerializeField] private float _delayToSpawn = 0.5f;
-    [SerializeField] private float _delayToThrow = 0.5f;
-    [SerializeField] private float _delayToBecomeReadyToHit = 0.2f;
 
     [SerializeField] private GameObject _knife;
 
@@ -24,14 +20,6 @@ public class KnifeSpawner : MonoBehaviour
     private void Awake()
     {
         _input.OnTouch += (position) => _worldPosition = position;
-    }
-
-    private void Update()
-    {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    StartCoroutine(ThrowKnife(Input.mousePosition));
-        //}
     }
 
     public void ThrowKnife()
@@ -51,16 +39,12 @@ public class KnifeSpawner : MonoBehaviour
             {
                 _knife.GetComponent<Knife>().Initialise(ray.direction, _speed, _knifeRotationSpeed);
                 _knife.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(_knife.transform.forward, ray.direction, 1, 0));
-                print("else");
-                //Destroy(_knife, 10);
                 StartCoroutine(CheckDestroy(_knife, 6));
             }
             Physics.IgnoreCollision(_knife.GetComponent<Collider>(), GetComponent<Collider>());
             _knife.transform.parent = null;
             _knife = null;
         }
-       // yield return new WaitForSeconds(_delayToSpawn);
-       // SpawnKnife();
     }
 
     public void SpawnKnife()
